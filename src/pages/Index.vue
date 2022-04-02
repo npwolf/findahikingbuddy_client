@@ -1,13 +1,48 @@
 <template>
-  <q-page class="flex flex-center">
-    <q-img src="~assets/banner-people2.JPG" />
-    <div class="hero-image">
-      <div class="hero-text">
-        <h1>I am John Doe</h1>
-        <p>And I'm a Photographer</p>
-        <button>Hire me</button>
+  <q-page class=" items-start justify-center">
+    <q-img
+      src="~assets/banner-people2.jpg"
+      class="row banner-image"
+    />
+    <div class="row justify-center items-center search-bar">
+      <div class="col-1">&nbsp;</div>
+      <div class="col-grow">
+        <q-input
+          class="search shadow-4"
+          outlined
+          v-model="text"
+          bg-color="white"
+          label="Search by City"
+        > <template v-slot:prepend>
+            <q-icon name="place" />
+          </template></q-input>
       </div>
+      <div class="col-2">
+        <q-select
+          outlined
+          bg-color="white"
+          label="Distance"
+          class="shadow-4"
+        />
+      </div>
+      <div class="col-shrink">
+        <q-btn color="secondary shadow-4">Search</q-btn>
+      </div>
+      <div class="col-1">&nbsp;</div>
     </div>
+
+    <!-- <div class="row">
+      <div class="col">
+        <q-input
+          class="search-box"
+          rounded
+          outlined
+          v-model="text"
+          label="Search by City"
+        />
+      </div>
+    </div> -->
+
   </q-page>
 </template>
 
@@ -20,33 +55,25 @@ export default defineComponent({
 </script>
 
 <style scoped>
-body,
-html {
-  height: 100%;
+.search-box {
+  /* max-width: 900px; */
 }
-/* The hero image */
-.hero-image {
-  /* Use "linear-gradient" to add a darken background effect to the image (photographer.jpg). This will make the text easier to read */
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url("~assets/banner-people.jpg");
 
-  /* Set a specific height */
-  height: 50%;
+/* .search-bar-row {
+  margin-top: -30px;
+} */
 
-  /* Position and center the image to scale nicely on all screens */
-  background-position: center;
+/* div {
+  border: 1px solid black;
+} */
+
+/* .bg-image {
+  background-image: url(~assets/banner-people2.jpg);
   background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
-}
+  background-size: auto;
+} */
 
-/* Place text in the middle of the image */
-.hero-text {
-  text-align: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-}
+/* .banner-image {
+  max-height: 100px;
+} */
 </style>

@@ -1,22 +1,27 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar>
-
-        <q-toolbar-title class="row items-center q-gutter-md">
-          <div class="col-shrink"><img
-              alt="FindAHikingBuddy Logo"
-              src="~assets/logo-100x100.png"
-              style="width: 50px; height: 50px"
-            /></div>
-          <div class="col">Find a Hiking Buddy</div>
-        </q-toolbar-title>
-
+      <q-toolbar class="bg-white justify-between">
         <div class="row q-gutter-sm">
           <div>
-            <q-btn color="secondary">Sign Up</q-btn>
+            <q-btn color="red">Schedule a Hike</q-btn>
           </div>
-          <q-btn color="secondary">Sign In</q-btn>
+        </div>
+        <div>
+          <!-- <q-toolbar-title class="row items-center q-pa-xs q-gutter-md"> -->
+          <!-- <div class="col-shrink q-pa-xs"><img
+              alt="FindAHikingBuddy Logo"
+              src="~assets/logo4.png"
+              style="width: 226px; height: 130px"
+            /></div> -->
+          <div
+            class="col title"
+            style="color:black"
+          >Find a Hiking Buddy</div>
+          <!-- </q-toolbar-title> -->
+        </div>
+        <div class="row q-gutter-sm">
+          <q-btn color="secondary">Login or Signup</q-btn>
         </div>
       </q-toolbar>
     </q-header>
@@ -45,3 +50,10 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.title {
+  font-family: "Oswald", sans-serif;
+  font-size: 35px;
+}
+</style>
