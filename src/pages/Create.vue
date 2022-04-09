@@ -1,12 +1,8 @@
 <template>
   <q-page class="row items-start justify-center">
-
     <div class="row"></div>
     <div class="col-shrink">&nbsp;</div>
-    <div
-      class="q-pa-md col"
-      style="max-width: 800px"
-    >
+    <div class="q-pa-md col" style="max-width: 800px">
       <div class="row items-start justify-center">
         <div class="text-h4 q-pa-sm">Schedule a Hike</div>
       </div>
@@ -51,7 +47,7 @@
               <div class="col-grow">
                 <q-input
                   filled
-                  v-model="name"
+                  v-model="hikeUrl"
                   label="Link to Hike"
                   placeholder="https://www.alltrails.com/trail/..."
                 />
@@ -61,10 +57,9 @@
             <div class="row q-gutter-y-md q-col-gutter-md">
               <div class="col-grow">&nbsp;</div>
               <div class="col-shrink">
-                <q-btn
-                  color="secondary"
-                  @click.prevent="showMeetDetails"
-                >Next</q-btn>
+                <q-btn color="secondary" @click.prevent="showPage(2)"
+                  >Next</q-btn
+                >
               </div>
             </div>
           </q-card-section>
@@ -73,12 +68,9 @@
         <q-card v-show="shouldShowMeetDetails">
           <q-card-section>
             <div class="text-h6">Meet When and Where</div>
-            <div class="text-h8"> {{ fullMeetDetails }} </div>
-
           </q-card-section>
           <q-separator inset />
           <q-card-section>
-
             <div class="row q-gutter-y-md q-col-gutter-md">
               <div class="col-12 col-sm-3">
                 <q-input
@@ -89,10 +81,7 @@
                   :rules="['date']"
                 >
                   <template v-slot:append>
-                    <q-icon
-                      name="event"
-                      class="cursor-pointer"
-                    >
+                    <q-icon name="event" class="cursor-pointer">
                       <q-popup-proxy
                         ref="qDateProxy"
                         cover
@@ -125,10 +114,7 @@
             </div>
             <div class="row">
               <div class="col-grow">
-                <div
-                  id="geocoderCtrl"
-                  class="geocoder"
-                ></div>
+                <div id="geocoderCtrl" class="geocoder"></div>
               </div>
             </div>
 
@@ -140,32 +126,115 @@
             </div>
             <div class="row">
               <div class="col-grow">
-                <span class="label">Meet Coordinates Latitude: {{ center[0] }} Longitude: {{ center[1] }}</span>
+                <span class="label"
+                  >Meet Coordinates Latitude: {{ center[0] }} Longitude:
+                  {{ center[1] }}</span
+                >
               </div>
             </div>
             <div class="row q-gutter-y-md q-col-gutter-md">
               <div class="col-grow">&nbsp;</div>
               <div class="col-shrink">
-                <q-btn
-                  color="secondary"
-                  @click.prevent="showHikeDetails"
-                >Back</q-btn>
-                <q-btn
-                  color="secondary"
-                  @click.prevent="showOtherDetails"
-                >Next</q-btn>
+                <q-btn color="secondary" @click.prevent="showPage(1)"
+                  >Back</q-btn
+                >
+              </div>
+              <div class="col-shrink">
+                <q-btn color="secondary" @click.prevent="showPage(3)"
+                  >Next</q-btn
+                >
+              </div>
+            </div>
+          </q-card-section>
+        </q-card>
+
+        <q-card v-show="shouldShowOtherDetails">
+          <q-card-section>
+            <div class="text-h6">Other</div>
+          </q-card-section>
+          <q-separator inset />
+          <q-card-section>
+            <div class="row q-gutter-y-md q-col-gutter-md">
+              <div class="row max-width">
+                <q-input
+                  filled
+                  type="textarea"
+                  v-model="notes"
+                  label="Other Details"
+                  placeholder="This is an easy hike and anyone is welcome to join!"
+                  class="max-width"
+                />
               </div>
             </div>
 
+            <div class="row q-gutter-y-md q-col-gutter-md">
+              <div class="col-grow">&nbsp;</div>
+              <div class="col-shrink">
+                <q-btn color="secondary" @click.prevent="showPage(2)"
+                  >Back</q-btn
+                >
+              </div>
+              <div class="col-shrink">
+                <q-btn color="secondary" @click.prevent="showPage(4)"
+                  >Next</q-btn
+                >
+              </div>
+            </div>
+          </q-card-section>
+        </q-card>
+
+        <q-card v-show="shouldShowConfirmDetails">
+          <q-card-section>
+            <div class="text-h6">Confirm Event Details</div>
+          </q-card-section>
+          <q-separator inset />
+          <q-card-section>
+            <div class="row">
+              <div class="row max-width">
+                <div class="col-grow">Name of hike: {{ name }}</div>
+              </div>
+              <div class="row max-width">
+                <div class="col-grow">Distance: {{ distance }} miles</div>
+              </div>
+              <div class="row max-width">
+                <div class="col-grow">Gain: {{ gain }} feet</div>
+              </div>
+              <div class="row max-width">
+                <div v-show="hikeUrl" class="col-grow">URL: {{ hikeUrl }}</div>
+              </div>
+              <div class="row max-width">
+                <div class="col-grow">When: {{ largeMeetDate }}</div>
+              </div>
+              <div class="row max-width">
+                <div class="col-grow">
+                  Where: {{ center[0] }}, {{ center[1] }}
+                </div>
+              </div>
+              <div class="row max-width">
+                <div class="col-grow">Other: {{ note }}</div>
+              </div>
+            </div>
+
+            <div class="row q-gutter-y-md q-col-gutter-md">
+              <div class="col-grow">&nbsp;</div>
+              <div class="col-shrink">
+                <q-btn color="secondary" @click.prevent="showPage(3)"
+                  >Back</q-btn
+                >
+              </div>
+              <div class="col-shrink">
+                <q-btn color="secondary" @click.prevent="createEvent"
+                  >Create</q-btn
+                >
+              </div>
+            </div>
           </q-card-section>
         </q-card>
       </q-form>
 
       <!-- Coordinates Display here -->
-      <div class="dislpay-arena">
-        <div class="coordinates-header">
-
-        </div>
+      <!-- <div class="dislpay-arena">
+        <div class="coordinates-header"></div>
         <div class="coordinates-header">
           <h3>Current Location</h3>
           <div class="form-group">
@@ -175,11 +244,9 @@
               :value="location"
               readonly
             />
-            <button
-              type="button"
-              class="copy-btn"
-              @click="copyLocation"
-            >Copy</button>
+            <button type="button" class="copy-btn" @click="copyLocation">
+              Copy
+            </button>
           </div>
           <button
             type="button"
@@ -191,7 +258,7 @@
             Get Location
           </button>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <div class="col-shrink">&nbsp;</div>
@@ -200,7 +267,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import moment from 'moment';
+import moment from "moment";
 import axios from "axios";
 import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
@@ -209,10 +276,10 @@ import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 export default defineComponent({
   name: "PageCreate",
   methods: {
-    createEvent () {
+    createEvent() {
       console.log(this.meetTime);
     },
-    async createMap () {
+    async createMap() {
       try {
         mapboxgl.accessToken = this.access_token;
         this.map = new mapboxgl.Map({
@@ -244,7 +311,6 @@ export default defineComponent({
           });
           this.getLocation();
         });
-
       } catch (err) {
         console.log("map error", err);
       }
@@ -252,7 +318,7 @@ export default defineComponent({
       // is incorrect size.
       this.shouldShowMeetDetails = false;
     },
-    async getLocation () {
+    async getLocation() {
       try {
         this.loading = true;
         const response = await axios.get(
@@ -266,23 +332,33 @@ export default defineComponent({
       }
     },
 
-    showHikeDetails () {
-      this.shouldShowHikeDetails = true;
-      this.shouldShowMeetDetails = false;
-    },
-    showMeetDetails () {
+    showPage(pageNumber) {
       this.shouldShowHikeDetails = false;
-      this.shouldShowMeetDetails = true;
-
-    }
-
+      this.shouldShowMeetDetails = false;
+      this.shouldShowOtherDetails = false;
+      this.shouldShowConfirmDetails = false;
+      switch (pageNumber) {
+        case 1:
+          this.shouldShowHikeDetails = true;
+          break;
+        case 2:
+          this.shouldShowMeetDetails = true;
+          break;
+        case 3:
+          this.shouldShowOtherDetails = true;
+          break;
+        case 4:
+          this.shouldShowConfirmDetails = true;
+          break;
+      }
+    },
   },
-  data () {
+  data() {
     return {
       name: "",
       distance: "",
       gain: "",
-      meetDate: moment().add(3, "days").format('YYYY/MM/DD'),
+      meetDate: moment().add(3, "days").format("YYYY/MM/DD"),
       meetTime: "09:00",
       loading: false,
       location: "",
@@ -292,17 +368,33 @@ export default defineComponent({
       map: undefined,
       shouldShowHikeDetails: true,
       shouldShowMeetDetails: true,
+      shouldShowOtherDetails: false,
+      shouldShowConfirmDetails: false,
     };
   },
-  mounted () {
+  mounted() {
     this.createMap();
   },
   computed: {
-    largeMeetDate () {
-      return moment(this.meetDate).format("ddd MMM Do YYYY") + " - " + moment(this.meetDate).fromNow();
+    largeMeetDate() {
+      let meetDateTime = this.meetDate + " " + this.meetTime;
+      return (
+        moment(meetDateTime).format("ddd MMM Do YYYY h:mm a") +
+        " - " +
+        moment(meetDateTime).fromNow()
+      );
     },
-    fullMeetDetails () {
-      return this.largeMeetDate + " at " + this.location + " (" + this.center[0] + ", " + this.center[1] + ")"
+    fullMeetDetails() {
+      return (
+        this.largeMeetDate +
+        " at " +
+        this.location +
+        " (" +
+        this.center[0] +
+        ", " +
+        this.center[1] +
+        ")"
+      );
     },
   },
 });
@@ -316,5 +408,10 @@ export default defineComponent({
 
 .mapboxgl-ctrl-geocoder {
   min-width: 100%;
+}
+
+.max-width {
+  width: 100%;
+  max-width: 100%;
 }
 </style>
